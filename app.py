@@ -81,7 +81,7 @@ with st.sidebar:
     if 'models' not in st.session_state:
         with st.spinner("加载模型中..."):
             response = requests.get(f"{base_url}/v1/models").json()['data']
-            st.session_state.models = [i['id'] for i in response]
+            st.session_state.models = [i['id'] for i in response if i['id'].lower().startswith("gpt")]
             st.session_state.tokens_dict = {i["id"]: i.get('tokens') for i in response}
             for model_ in st.session_state.models:
                 st.session_state[f"{model_}_con"] = json.loads(st.session_state.local_storage.get(f"{model_}_con", "[]"))

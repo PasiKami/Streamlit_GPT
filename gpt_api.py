@@ -214,10 +214,16 @@ class Chatbot:
             if not line:
                 continue
             # Remove "data: "
-            line = line.decode("utf-8")[6:]
+            
+            line = line.decode("utf-8")
+            if line.startswith("data"):
+                line = line[6:]
             if line == "[DONE]":
                 break
-            resp: dict = json.loads(line)
+            try:
+                resp: dict = json.loads(line)
+            except:
+                continue
             choices = resp.get("choices")
             if not choices:
                 continue
